@@ -1,161 +1,308 @@
 namespace WinFormsApp3
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
+     public partial class Form1 : Form
+ {
+     public Form1()
+     {
+         InitializeComponent();
 
-            InitializeSnake();
-        }
+         InitializeSnake();
+     }
 
-        public List<List<Panel>> Field = new List<List<Panel>>();
+     public List<List<Panel>> Field = new List<List<Panel>>();
 
-        public Block Head = new Block();
-        public List<Block> Tail = new List<Block>();
+     public Block Head = new Block();
+     public Block Fruit = new Block();
+     public Block Clear = new Block();
+     public int Length = 0;
 
-        public Block Fruit = new Block();
+     public Direction MovingDirection = Direction.None;
+     public Direction NextDirection = Direction.None;
+     public List<Direction> MovingLog = new List<Direction>();
 
-        public Direction MovingDirection = Direction.None;
+     public Color FieldColor = Color.White;
+     public Color SnakeColor = Color.Green;
+     public Color FruitColor = Color.Red;
 
-        Random random = new Random();
+     public void InitializeSnake()
+     {
+         Random random = new Random();
 
-        public void InitializeSnake()
-        {
-            Head.X = random.Next(0, 19);
-            Head.Y = random.Next(0, 19);
-            Head.FillColor = Color.Green;
+         for (int i = 0; i < tableLayoutPanel1.ColumnCount; i++)
+         {
+             List<Panel> Line = new List<Panel>();
 
-            Fruit.X = random.Next(0, 19);
-            Fruit.Y = random.Next(0, 19);
-            Fruit.FillColor = Color.Red;
+             for (int j = 0; j < tableLayoutPanel1.RowCount; j++)
+             {
+                 Panel panel = new Panel();
+                 panel.BackColor = FieldColor;
+                 panel.Dock = DockStyle.Fill;
 
-            while (Fruit.X == Head.X && Fruit.Y == Head.Y)
-            {
-                Fruit.X = random.Next(0, 19);
-                Fruit.Y = random.Next(0, 19);
-            }
+                 tableLayoutPanel1.Controls.Add(panel, i, j);
+                 Line.Add(panel);
+             }
 
-            for (int i = 0; i < tableLayoutPanel1.ColumnCount; i++)
-            {
-                List<Panel> Line = new List<Panel>();
+             Field.Add(Line);
+         }
 
-                for (int j = 0; j < tableLayoutPanel1.RowCount; j++)
-                {
-                    Panel panel = new Panel();
-                    panel.Dock = DockStyle.Fill;
+         Field[0][0].BackColor = FieldColor;
 
-                    tableLayoutPanel1.Controls.Add(panel, i, j);
-                    Line.Add(panel);
-                }
+         Head.X = random.Next(0, tableLayoutPanel1.ColumnCount - 1);
+         Head.Y = random.Next(0, tableLayoutPanel1.RowCount - 1);
+         Head.FillColor = SnakeColor;
+         Field[Head.X][Head.Y].BackColor = Head.FillColor;
 
-                Field.Add(Line);
-            }
-        }
+         Clear.X = Head.X;
+         Clear.Y = Head.Y;
+         Clear.FillColor = FieldColor;
+         
+         Fruit.FillColor = FruitColor;
+         NewFruit();
+     }
 
-        public void OutputSnake()
-        {
-            for (int i = 0; i < tableLayoutPanel1.Controls.Count; i++)
-            {
-                tableLayoutPanel1.Controls[i].BackColor = Color.White;
-            }
+     public void EndGame()
+     {
+         timer1.Enabled = false;
+         MessageBox.Show("score: " + (Length - 1).ToString());
+     }
 
-            Field[Head.X][Head.Y].BackColor = Head.FillColor;
-            Field[Fruit.X][Fruit.Y].BackColor = Fruit.FillColor;
+     public void NewFruit()
+     {
+         Random random = new Random();
 
-            for (int i = 0; i < Tail.Count; i++)
-            {
-                Field[Tail[i].X][Tail[i].Y].BackColor = Tail[i].FillColor;
-            }
-        }
+         List<Block> Empty = new List<Block>();
+         Block Temp = new Block();
 
-        public void MoveSnake()
-        {
-            switch (MovingDirection)
-            {
-                case Direction.Up:
+         for (int i = 0; i < Field.Count; i++)
+         {
+             for (int j = 0; j < Field[i].Count; j++)
+             {
+                 if (Field[i][j].BackColor == FieldColor || i == Clear.X && j == Clear.Y)
+                 {
+                     Empty.Add(new Block() { X = i, Y = j });
+                 }
+             }
+         }
 
-                    Head.Y--;
+         if (Empty.Count > 0)
+         {
+             Temp = Empty[random.Next(Empty.Count)];
 
-                    break;
+             Fruit.X = Temp.X;
+             Fruit.Y = Temp.Y;
 
-                case Direction.Down:
+             Field[Fruit.X][Fruit.Y].BackColor = Fruit.FillColor;
 
-                    Head.Y++;
+             Length++;
+         }
+     }
 
-                    break;
+     public void OutputSnake()
+     {
+         Field[Clear.X][Clear.Y].BackColor = Clear.FillColor;
 
-                case Direction.Left:
+         Field[Fruit.X][Fruit.Y].BackColor = Fruit.FillColor;
 
-                    Head.X--;
+         Field[Head.X][Head.Y].BackColor = Head.FillColor;
+     }
 
-                    break;
+     public void MoveSnake()
+     {
+         MovingDirection = NextDirection;
 
-                case Direction.Right:
+         switch (MovingDirection)
+         {
+             case Direction.Up:
 
-                    Head.X++;
+                 MovingLog.Add(Direction.Up);
+                 Head.Y--;
 
-                    break;
-            }
-        }
+                 break;
 
-        public bool CheckForCollision()
-        {
-            return false;
-        }
+             case Direction.Down:
 
-        public void ChooseDirection(object sender, EventArgs e)
-        {
-            if (CheckForCollision() == false)
-            {
-                MoveSnake();
+                 MovingLog.Add(Direction.Down);
+                 Head.Y++;
 
-                OutputSnake();
-            }
-        }
+                 break;
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        { 
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
+             case Direction.Left:
 
-                    MovingDirection = Direction.Up;
+                 MovingLog.Add(Direction.Left);
+                 Head.X--;
 
-                    break;
+                 break;
 
-                case Keys.Down:
+             case Direction.Right:
 
-                    MovingDirection = Direction.Down;
+                 MovingLog.Add(Direction.Right);
+                 Head.X++;
 
-                    break;
+                 break;
+         }
+     }
 
-                case Keys.Left:
+     public void MoveClear()
+     {
+         if (MovingLog.Count > Length)
+         {
+             switch (MovingLog[0])
+             {
+                 case Direction.Up:
 
-                    MovingDirection = Direction.Left;
+                     Clear.Y--;
 
-                    break;
+                     break;
 
-                case Keys.Right:
+                 case Direction.Down:
 
-                    MovingDirection = Direction.Right;
+                     Clear.Y++;
 
-                    break;
-            }
-        }
+                     break;
 
-        public enum Direction
-        {
-            Up, Down, Left, Right, None
-        }
-    }
+                 case Direction.Left:
+
+                     Clear.X--;
+
+                     break;
+
+                 case Direction.Right:
+
+                     Clear.X++;
+
+                     break;
+             }
+
+             MovingLog.RemoveAt(0);
+         }
+     }
+
+     public bool CheckForCollisionWithWalls()
+     {
+         if (Head.X < 0 || Head.Y < 0 || Head.X >= tableLayoutPanel1.ColumnCount || Head.Y >= tableLayoutPanel1.RowCount)
+         {
+             return true;
+         }
+
+         return Field[Head.X][Head.Y].BackColor == Head.FillColor;
+     }
+
+     public void CheckForCollisionWithFruit()
+     {
+         if (Head.X == Fruit.X && Head.Y == Fruit.Y)
+         {
+             NewFruit();
+         }
+     }
+
+     public void NextFrame(object sender, EventArgs e)
+     {
+         MoveSnake();
+
+         if (CheckForCollisionWithWalls() == false)
+         {
+             CheckForCollisionWithFruit();
+
+             MoveClear();
+
+             OutputSnake();
+         }
+         else
+         {
+             EndGame();
+         }
+     }
+
+     private void Form1_KeyDown(object sender, KeyEventArgs e)
+     {
+         switch (e.KeyCode)
+         {
+             case Keys.Up:
+
+                 if (MovingDirection != Direction.Down)
+                 {
+                     NextDirection = Direction.Up;
+                 }
+
+                 break;
+
+             case Keys.Down:
+
+                 if (MovingDirection != Direction.Up)
+                 {
+                     NextDirection = Direction.Down;
+                 }
+
+                 break;
+
+             case Keys.Left:
+
+                 if (MovingDirection != Direction.Right)
+                 {
+                     NextDirection = Direction.Left;
+                 }
+
+                 break;
+
+             case Keys.Right:
+
+                 if (MovingDirection != Direction.Left)
+                 {
+                     NextDirection = Direction.Right;
+                 }
+
+                 break;
+         }
+
+         if (timer1.Enabled == false)
+         {
+             switch (NextDirection)
+             {
+                 case Direction.Up:
+
+                     MovingLog.Add(Direction.Up);
+                     Clear.Y++;
+
+                     break;
+
+                 case Direction.Down:
+
+                     MovingLog.Add(Direction.Down);
+                     Clear.Y--;
+
+                     break;
+
+                 case Direction.Left:
+
+                     MovingLog.Add(Direction.Left);
+                     Clear.X++;
+
+                     break;
+
+                 case Direction.Right:
+
+                     MovingLog.Add(Direction.Right);
+                     Clear.X--;
+
+                     break;
+             }
+
+             timer1.Enabled = true;
+         }
+     }
+
+     public enum Direction
+     {
+         Up, Down, Left, Right, None
+     }
+ }
 
 
-    public class Block
-    {
-        public int X;
-        public int Y;
+ public class Block
+ {
+     public int X;
+     public int Y;
 
-        public Color FillColor;
-    }
+     public Color FillColor;
+ }
 }
