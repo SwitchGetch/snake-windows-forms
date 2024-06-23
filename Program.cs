@@ -17,8 +17,8 @@ namespace snake
 
     public static class Config
     {
-        public static int FieldWidth;
-        public static int FieldHeight;
-        public static int SnakeSpeed;
+        public static int FieldWidth = 20;
+        public static int FieldHeight = 20;
+        public static int SnakeSpeed = 900;
     }
 }
