@@ -1,4 +1,4 @@
-﻿namespace snake
+namespace snake
 {
     partial class Menu
     {
@@ -104,7 +104,7 @@
             numericUpDown1.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(74, 23);
-            numericUpDown1.TabIndex = 1;
+            numericUpDown1.TabIndex = 4;
             numericUpDown1.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // label2
@@ -114,7 +114,7 @@
             label2.Location = new System.Drawing.Point(323, 135);
             label2.Name = "label2";
             label2.Size = new Size(74, 45);
-            label2.TabIndex = 2;
+            label2.TabIndex = 1;
             label2.Text = "Field Width";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -125,7 +125,7 @@
             label3.Location = new System.Drawing.Point(323, 180);
             label3.Name = "label3";
             label3.Size = new Size(74, 45);
-            label3.TabIndex = 3;
+            label3.TabIndex = 2;
             label3.Text = "Field Height";
             label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -136,7 +136,7 @@
             label4.Location = new System.Drawing.Point(323, 225);
             label4.Name = "label4";
             label4.Size = new Size(74, 45);
-            label4.TabIndex = 4;
+            label4.TabIndex = 3;
             label4.Text = "Snake Speed";
             label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -156,8 +156,8 @@
             numericUpDown3.Dock = DockStyle.Fill;
             numericUpDown3.Increment = new decimal(new int[] { 100, 0, 0, 0 });
             numericUpDown3.Location = new System.Drawing.Point(403, 228);
-            numericUpDown3.Maximum = new decimal(new int[] { 900, 0, 0, 0 });
-            numericUpDown3.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
+            numericUpDown3.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            numericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericUpDown3.Name = "numericUpDown3";
             numericUpDown3.Size = new Size(74, 23);
             numericUpDown3.TabIndex = 6;
