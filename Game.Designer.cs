@@ -1,4 +1,4 @@
-﻿namespace snake
+namespace snake
 {
     public partial class Game
     {
@@ -62,14 +62,14 @@
             timer1.Interval = 1000 - Config.SnakeSpeed;
             timer1.Tick += NextFrame;
             // 
-            // Form1
+            // Game
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 800);
             Controls.Add(tableLayoutPanel1);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Game";
+            Text = "Game";
             KeyDown += Form1_KeyDown;
             ResumeLayout(false);
         }
