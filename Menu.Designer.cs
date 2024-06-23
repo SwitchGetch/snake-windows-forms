@@ -96,17 +96,6 @@ namespace snake
             label1.Text = "SNAKE";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Dock = DockStyle.Fill;
-            numericUpDown1.Location = new System.Drawing.Point(403, 138);
-            numericUpDown1.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(74, 23);
-            numericUpDown1.TabIndex = 4;
-            numericUpDown1.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -140,6 +129,17 @@ namespace snake
             label4.Text = "Snake Speed";
             label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Dock = DockStyle.Fill;
+            numericUpDown1.Location = new System.Drawing.Point(403, 138);
+            numericUpDown1.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            numericUpDown1.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(74, 23);
+            numericUpDown1.TabIndex = 4;
+            numericUpDown1.Value = new decimal(new int[] { Config.FieldWidth, 0, 0, 0 });
+            // 
             // numericUpDown2
             // 
             numericUpDown2.Dock = DockStyle.Fill;
@@ -149,7 +149,7 @@ namespace snake
             numericUpDown2.Name = "numericUpDown2";
             numericUpDown2.Size = new Size(74, 23);
             numericUpDown2.TabIndex = 5;
-            numericUpDown2.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            numericUpDown2.Value = new decimal(new int[] { Config.FieldHeight, 0, 0, 0 });
             // 
             // numericUpDown3
             // 
@@ -161,7 +161,7 @@ namespace snake
             numericUpDown3.Name = "numericUpDown3";
             numericUpDown3.Size = new Size(74, 23);
             numericUpDown3.TabIndex = 6;
-            numericUpDown3.Value = new decimal(new int[] { 900, 0, 0, 0 });
+            numericUpDown3.Value = new decimal(new int[] { Config.SnakeSpeed, 0, 0, 0 });
             // 
             // button1
             // 
