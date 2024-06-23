@@ -17,8 +17,12 @@ namespace snake
 
     public static class Config
     {
+        public static int WindowWidth = 800;
+        public static int WindowHeight = 800;
+
         public static int FieldWidth = 20;
         public static int FieldHeight = 20;
+
         public static int SnakeSpeed = 900;
     }
 }
